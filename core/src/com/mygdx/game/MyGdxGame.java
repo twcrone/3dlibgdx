@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 public class MyGdxGame extends ApplicationAdapter {
+    private boolean increment;
+    private float scale = 1;
 	private float rotation = 0;
 	private PerspectiveCamera cam;
 	private Model model;
@@ -52,6 +54,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		modelBatch.end();
 		rotate();
 		movement();
+		scale();
 		updateTransformation();
 	}
 	
@@ -93,6 +96,21 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private void updateTransformation() {
 		Matrix4 matrix4 = instance.transform.setFromEulerAngles(0, 0, rotation);
-		matrix4.trn(position.x, position.y, position.z);
+		matrix4.trn(position.x, position.y, position.z).scale(scale, scale, scale);
 	}
+
+	private void scale() {
+	    if(increment) {
+	        scale = (scale + Gdx.graphics.getDeltaTime()/5);
+	        if(scale >= 1.5f) {
+	            increment = false;
+            }
+        }
+        else {
+            scale = (scale - Gdx.graphics.getDeltaTime()/5);
+            if(scale <= 0.5f) {
+                increment = true;
+            }
+        }
+    }
 }
