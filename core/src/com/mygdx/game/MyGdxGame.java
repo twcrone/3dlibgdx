@@ -8,15 +8,17 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 public class MyGdxGame extends ApplicationAdapter {
-	PerspectiveCamera cam;
-	Model model;
-	ModelInstance instance;
-	ModelBatch modelBatch;
-	Environment environment;
-	Vector3 position = new Vector3();
+	private float rotation = 0;
+	private PerspectiveCamera cam;
+	private Model model;
+	private ModelInstance instance;
+	private ModelBatch modelBatch;
+	private Environment environment;
+	private Vector3 position = new Vector3();
 
 	@Override
 	public void create () {
@@ -49,6 +51,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		modelBatch.render(instance, environment);
 		modelBatch.end();
 		rotate();
+		movement();
+		updateTransformation();
 	}
 	
 	@Override
@@ -70,18 +74,25 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 			position.x -= Gdx.graphics.getDeltaTime();
 		}
-		instance.transform.setTranslation(position);
 	}
 
+
 	private void rotate() {
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-			instance.transform.rotate(Vector3.X, Gdx.graphics.getDeltaTime() * 100);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-			instance.transform.rotate(Vector3.Y, Gdx.graphics.getDeltaTime() * 100);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-			instance.transform.rotate(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
-		}
+		rotation = (rotation + Gdx.graphics.getDeltaTime() * 100) % 360;
+
+//		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+//			instance.transform.setToRotation(Vector3.X, Gdx.graphics.getDeltaTime() * 100);
+//		}
+//		if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+//			instance.transform.setToRotation(Vector3.Y, Gdx.graphics.getDeltaTime() * 100);
+//		}
+//		if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+//			instance.transform.setToRotation(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
+//		}
+	}
+
+	private void updateTransformation() {
+		Matrix4 matrix4 = instance.transform.setFromEulerAngles(0, 0, rotation);
+		matrix4.trn(position.x, position.y, position.z);
 	}
 }
