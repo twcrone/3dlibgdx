@@ -48,6 +48,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		modelBatch.begin(cam);
 		modelBatch.render(instance, environment);
 		modelBatch.end();
+		rotate();
 	}
 	
 	@Override
@@ -70,5 +71,17 @@ public class MyGdxGame extends ApplicationAdapter {
 			position.x -= Gdx.graphics.getDeltaTime();
 		}
 		instance.transform.setTranslation(position);
+	}
+
+	private void rotate() {
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+			instance.transform.rotate(Vector3.X, Gdx.graphics.getDeltaTime() * 100);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+			instance.transform.rotate(Vector3.Y, Gdx.graphics.getDeltaTime() * 100);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+			instance.transform.rotate(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
+		}
 	}
 }
