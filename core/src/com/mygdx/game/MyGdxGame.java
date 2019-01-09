@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Vector3;
 
 public class MyGdxGame extends ApplicationAdapter {
 	PerspectiveCamera cam;
@@ -14,6 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	ModelInstance instance;
 	ModelBatch modelBatch;
 	Environment environment;
+	Vector3 position = new Vector3();
 
 	@Override
 	public void create () {
@@ -38,6 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		movement();
 		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
@@ -49,5 +52,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		model.dispose();
+	}
+
+	private void movement() {
+		instance.transform.getTranslation(position);
+		position.x += Gdx.graphics.getDeltaTime();
+		instance.transform.setTranslation(position);
 	}
 }
