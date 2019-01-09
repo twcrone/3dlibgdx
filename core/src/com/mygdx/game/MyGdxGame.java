@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -56,7 +57,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private void movement() {
 		instance.transform.getTranslation(position);
-		position.x += Gdx.graphics.getDeltaTime();
+		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+			position.x += Gdx.graphics.getDeltaTime();
+		}
 		instance.transform.setTranslation(position);
 	}
 }
